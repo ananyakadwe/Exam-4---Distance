@@ -7,64 +7,62 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom styles to match the image precisely */
         body {
-            font-family: 'Inter', sans-serif; /* Using Inter font as per instructions */
-            background-color: #f0f0f0; /* Light grey background */
+            background-color: #f0f0f0; 
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* Full viewport height */
+            min-height: 100vh;
             margin: 0;
         }
         .container {
             background-color: white;
-            padding: 2.5rem; /* Increased padding for better spacing */
-            border-radius: 1rem; /* More rounded corners */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            padding: 2.5rem; 
+            border-radius: 1rem; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
             width: 100%;
-            max-width: 400px; /* Max width for better mobile experience */
+            max-width: 400px; 
         }
         .input-field {
             width: 100%;
             padding: 0.75rem 1rem;
-            margin-bottom: 0.75rem; /* Space between inputs */
-            border: 1px solid #d1d5db; /* Light gray border */
-            border-radius: 0.5rem; /* Rounded input corners */
+            margin-bottom: 0.75rem; 
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem; 
             font-size: 1rem;
-            outline: none; /* Remove outline on focus */
+            outline: none; 
             transition: border-color 0.2s;
         }
         .input-field:focus {
-            border-color: #3b82f6; /* Blue border on focus */
+            border-color: #3b82f6; 
         }
         .calculate-button {
             width: 100%;
             padding: 1rem;
-            background-color: #3b82f6; /* Blue background */
+            background-color: #3b82f6; 
             color: white;
             font-weight: bold;
-            border-radius: 0.75rem; /* Rounded button corners */
+            border-radius: 0.75rem; 
             cursor: pointer;
             transition: background-color 0.2s, transform 0.1s;
-            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3); /* Blue shadow */
-            border: none; /* Remove default button border */
+            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3); 
+            border: none; 
         }
         .calculate-button:hover {
-            background-color: #2563eb; /* Darker blue on hover */
-            transform: translateY(-1px); /* Slight lift on hover */
+            background-color: #2563eb; 
+            transform: translateY(-1px);
         }
         .calculate-button:active {
-            transform: translateY(0); /* Press effect */
+            transform: translateY(0);
         }
         .result-text {
-            font-size: 1.125rem; /* Larger text for result */
-            font-weight: 500; /* Medium weight */
-            margin-top: 1.5rem; /* Space above result */
-            text-align: center; /* Center align result */
+            font-size: 1.125rem; 
+            font-weight: 500; 
+            margin-top: 1.5rem; 
+            text-align: center; 
         }
         .error-message {
-            color: #ef4444; /* Red for error messages */
+            color: #ef4444; 
             font-size: 0.875rem;
             margin-top: 0.5rem;
             text-align: center;
@@ -98,16 +96,14 @@
             const resultDisplay = document.getElementById('resultDisplay');
             const errorMessage = document.getElementById('errorMessage');
 
-            // Function to fetch distance from the server
             async function calculateDistance() {
-                errorMessage.textContent = ''; // Clear previous error messages
-                resultDisplay.textContent = ''; // Clear previous results
+                errorMessage.textContent = ''; 
+                resultDisplay.textContent = ''; 
 
                 const x = xInput.value;
                 const y = yInput.value;
                 const z = zInput.value;
 
-                // Basic client-side validation
                 if (x === '' || y === '' || z === '') {
                     errorMessage.textContent = 'Please enter values for x, y, and z.';
                     return;
@@ -118,7 +114,6 @@
                 }
 
                 try {
-                    // Make a fetch request to the Express API
                     const response = await fetch(`/calculate-distance?x=${x}&y=${y}&z=${z}`);
 
                     if (!response.ok) {
@@ -127,7 +122,6 @@
                     }
 
                     const data = await response.json();
-                    // Display the result, formatted to one decimal place as in the example
                     resultDisplay.textContent = `distance to (${x},${y},${z}) is d = ${Math.round(data.distance)}`;
                 } catch (error) {
                     errorMessage.textContent = `Error: ${error.message}`;
@@ -135,15 +129,10 @@
                 }
             }
 
-            // Attach event listener to the button
             calculateButton.addEventListener('click', calculateDistance);
-
-            // Optionally, trigger calculation on Enter key press in input fields
             xInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') calculateDistance(); });
             yInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') calculateDistance(); });
             zInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') calculateDistance(); });
-
-            // Initial calculation with default values on load
             calculateDistance();
         });
     </script>
